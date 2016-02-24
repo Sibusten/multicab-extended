@@ -1,7 +1,7 @@
 function getCache(buttonraw) // replaces function of same name in actionbar.js
 {
-  var button = ( buttonraw - 1 ) % 12 + 1;
-  var modpage = ( Math.floor( ( buttonraw - 1 ) / 12 ) + top.buttoncache.whichpage ) % 12;
+  var button = ( buttonraw - 1 ) % 12 + 1; // NEW LINE
+  var modpage = ( Math.floor( ( buttonraw - 1 ) / 12 ) + top.buttoncache.whichpage ) % 12; // NEW LINE
 	var nullcache = {type: null, id: null, pic: null};
 	if (button < 1 || button > 12)
 		return nullcache;
@@ -22,7 +22,7 @@ function getCache(buttonraw) // replaces function of same name in actionbar.js
 	else
 		with (top.buttoncache)
 		{
-			var obj = pages[modpage][button - 1];
+			var obj = pages[modpage][button - 1];  // MODIFIED LINE
 			if (obj == null)
 				return nullcache;
 			else
@@ -32,8 +32,8 @@ function getCache(buttonraw) // replaces function of same name in actionbar.js
 
 function setCache(buttonraw, type, id, pic) // replaces function of same name in actionbar.js
 {
-  var button = ( buttonraw - 1 ) % 12 + 1;
-  var modpage = ( Math.floor( ( buttonraw - 1 ) / 12 ) + top.buttoncache.whichpage ) % 12;
+  var button = ( buttonraw - 1 ) % 12 + 1; // NEW LINE
+  var modpage = ( Math.floor( ( buttonraw - 1 ) / 12 ) + top.buttoncache.whichpage ) % 12; // NEW LINE
 	var nullcache = {type: null, id: null, pic: null};
 	if (button < 1 || button > 12)
 		return null;
@@ -42,17 +42,17 @@ function setCache(buttonraw, type, id, pic) // replaces function of same name in
 	with (top.buttoncache)
 	{
 		if (type == null && id == null && pic == "blank")
-			pages[modpage][button - 1] = null;
+			pages[modpage][button - 1] = null;  // MODIFIED LINE
 		else
 		{
 			if (type == "action" && id == "attack")
 				pic = state.actions.attack.pic;
-			pages[modpage][button - 1] = {type: type, id: id, pic: pic};
+			pages[modpage][button - 1] = {type: type, id: id, pic: pic};  // MODIFIED LINE
 		}
 	}
 }
 
-function setPage(page)
+function setPage(page) // replaces function of same name in actionbar.js
 {
 	var img;
 	if (page < 0 || page > 11)
@@ -62,7 +62,7 @@ function setPage(page)
 	else
 		top.buttoncache.whichpage = page;
 
-	for (var i = 1; i <= state["totalbuttons"]; i++)
+	for (var i = 1; i <= state["totalbuttons"]; i++) // MODIFIED LINE
 	{
 		var cache = getCache(i);
 		var button = document.getElementById('button' + i);
