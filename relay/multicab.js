@@ -91,7 +91,7 @@ function addElement( parent , type , className , id ) {
 
 function multiCAB_init() {
   state.totalbuttons = 24;
-  var newtopbarheight = 110 + 'px';
+  var newtopbarheight = 115 + 'px';
   var topbar = document.getElementById('topbar');
   topbar.style.height = newtopbarheight;
   document.getElementById('content_').style.top = newtopbarheight;
