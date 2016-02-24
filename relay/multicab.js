@@ -52,6 +52,35 @@ function setCache(buttonraw, type, id, pic) // replaces function of same name in
 	}
 }
 
+function setPage(page)
+{
+	var img;
+	if (page < 0 || page > 11)
+		return;
+	if (state["shapeshift"])
+		page = 0;
+	else
+		top.buttoncache.whichpage = page;
+
+	for (var i = 1; i <= state["totalbuttons"]; i++)
+	{
+		var cache = getCache(i);
+		var button = document.getElementById('button' + i);
+		if (cache)
+			assignButton(button, cache["type"], cache["id"], cache["pic"]);
+		else
+			unassignButton(button);
+	}
+
+	if (state["funkslinging"])
+		for (var i = 1; i <= 2; i++)
+			if (img = state["ants" + i])
+				img.style.display = state["funkpage" + i] == whichpage ? "inline" : "none";
+
+	var pageout = document.getElementById('page_out');
+	pageout.innerHTML = page + 1;
+}
+
 function addElement( parent , type , className , id ) {
   var el = document.createElement( type );
   if ( className != undefined ) el.className = className;
@@ -61,7 +90,7 @@ function addElement( parent , type , className , id ) {
 }
 
 function multiCAB_init() {
-  state.buttonmax = 24;
+  state.totalbuttons = 24;
   var newtopbarheight = 110 + 'px';
   var topbar = document.getElementById('topbar');
   topbar.style.height = newtopbarheight;
