@@ -91,7 +91,7 @@ function addElement( parent , type , className , id ) {
 
 function multiCAB_init() {
   state.totalbuttons = 24;
-  var newtopbarheight = 115 + 'px';
+  var newtopbarheight = 110 + 'px';
   var topbar = document.getElementById('topbar');
   topbar.style.height = newtopbarheight;
   document.getElementById('content_').style.top = newtopbarheight;
@@ -99,8 +99,16 @@ function multiCAB_init() {
   var actionbar = document.getElementsByClassName('actionbar')[0];
   var newbar = addElement( actionbar.firstChild , 'tr' , 'blueback');
   var newqty = addElement( actionbar.firstChild , 'tr' , 'label' );
-  addElement( newbar , 'td' , 'spacer' ).colSpan = 4;
-  addElement( newqty , 'td' , 'spacer' ).colSpan = 4;
+  addElement( newbar , 'td' ).appendChild( document.getElementById('skills') );
+  addElement( newqty , 'td' ).innerHTML = 'skills';
+  with ( actionbar.firstChild ) {
+    for (var row = 0; row < 3; row++ ) {
+      children[row].removeChild( children[row].children[2] );
+      children[row].removeChild( children[row].children[2] );
+    }
+  }
+  addElement( newbar , 'td' , 'spacer' );
+  addElement( newqty , 'td' , 'spacer' );
   
   for ( var button_it = 1; button_it < 13; button_it++ ) {
     button_id = button_it + 12;
@@ -116,6 +124,16 @@ function multiCAB_init() {
     newButton.onclick = buttonClick;
     newButton.oncontextmenu = buttonClick;
   }
+  addElement( newbar , 'td' , 'spacer' );
+  addElement( newqty , 'td' , 'spacer' );
+  addElement( newbar , 'td' ).appendChild( document.getElementById('items') );
+  addElement( newqty , 'td' ).innerHTML = 'items';
+    with ( actionbar.firstChild ) {
+    for (var row = 0; row < 3; row++ ) {
+      children[row].removeChild( children[row].children[16] );
+    }
+  }
+  
 }
 
 multiCAB_init();
