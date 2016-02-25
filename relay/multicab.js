@@ -99,12 +99,14 @@ function multiCAB_init() {
   var actionbar = document.getElementsByClassName('actionbar')[0];
   var newbar = addElement( actionbar.firstChild , 'tr' , 'blueback');
   var newqty = addElement( actionbar.firstChild , 'tr' , 'label' );
+  addElement( newbar , 'td' , 'spacer' ).colSpan = 2;
+  addElement( newqty , 'td' , 'spacer' ).colSpan = 2;
   addElement( newbar , 'td' ).appendChild( document.getElementById('skills') );
   addElement( newqty , 'td' ).innerHTML = 'skills';
   with ( actionbar.firstChild ) {
     for (var row = 0; row < 3; row++ ) {
-      children[row].removeChild( children[row].children[2] );
-      children[row].removeChild( children[row].children[2] );
+      children[row].children[2].className = 'spacer';
+      children[row].children[2].innerHTML = '';
     }
   }
   addElement( newbar , 'td' , 'spacer' );
@@ -130,7 +132,8 @@ function multiCAB_init() {
   addElement( newqty , 'td' ).innerHTML = 'items';
     with ( actionbar.firstChild ) {
     for (var row = 0; row < 3; row++ ) {
-      children[row].removeChild( children[row].children[16] );
+      children[row].children[18].className = 'spacer';
+      children[row].children[18].innerHTML = '';
     }
   }
   
