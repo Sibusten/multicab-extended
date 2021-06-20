@@ -84,14 +84,24 @@ function addElement(parent, type, className, id) {
 }
 
 function multiCAB_init() {
-    // Set the total button count to 24 (12 buttons per action bar)
-    state.totalbuttons = 24;
+    // Set the total button count
+    const barCount = 2;
+    const buttonsPerBar = 12;
+    state.totalbuttons = barCount * buttonsPerBar;
+
+    // Calculate the height of the top bar
+    const skillRowHeight = 36;  // The size of the skill boxes
+    const labelRowHeight = 12;  // The size of the labels above and below skill boxes
+    const bottomSpacingHeight = 6;  // Extra spacing before the combat body
+    const topBarHeight =
+        labelRowHeight  // The hotkey numbers above the first action bar
+        + barCount * (skillRowHeight + labelRowHeight)  // The size of all bars
+        + bottomSpacingHeight;  // Extra spacing at the bottom
 
     // Expand the top bar to fit the second action bar
-    var newtopbarheight = 110 + 'px';
     var topbar = document.getElementById('topbar');
-    topbar.style.height = newtopbarheight;
-    document.getElementById('content_').style.top = newtopbarheight;
+    topbar.style.height = topBarHeight + 'px';
+    document.getElementById('content_').style.top = topBarHeight + 'px';
 
     // Get the action bar holder
     var actionbar = document.getElementsByClassName('actionbar')[0];
