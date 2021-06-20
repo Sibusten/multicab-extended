@@ -83,10 +83,100 @@ function addElement(parent, type, className, id) {
     return el;
 }
 
+const buttonsPerBar = 12;
+
+const multiCAB_repositionSkillsAndItems = (function() {
+    // Store skills and items buttons to simplify repositioning
+    const skillsButton = document.getElementById('skills');
+    const itemsButton = document.getElementById('items');
+
+    const skillsIndex = 2;
+    const itemsIndex = 18;
+
+    return function() {
+        // Get the action bar table
+        const actionBarTable = document.getElementsByClassName('actionbar')[0].firstChild;
+
+        // Place spacers in all rows but the last two, which hold the last action bar
+        const totalRows = actionBarTable.childNodes.length;
+        const lastActionRowIndex = totalRows - 2;
+        for (let row = 0; row < lastActionRowIndex; row++) {
+            actionBarTable.children[row].children[skillsIndex].className = 'spacer';
+            actionBarTable.children[row].children[skillsIndex].innerHTML = '';
+
+            actionBarTable.children[row].children[itemsIndex].className = 'spacer';
+            actionBarTable.children[row].children[itemsIndex].innerHTML = '';
+        }
+
+        const lastLabelRowIndex = lastActionRowIndex + 1;
+
+        // Add the skills button to the bottom bar
+        actionBarTable.children[lastActionRowIndex].children[skillsIndex].className = '';
+        actionBarTable.children[lastActionRowIndex].children[skillsIndex].appendChild(skillsButton);
+        actionBarTable.children[lastLabelRowIndex].children[skillsIndex].innerHTML = 'skills';
+
+        // Add the items button to the bottom bar
+        actionBarTable.children[lastActionRowIndex].children[itemsIndex].className = '';
+        actionBarTable.children[lastActionRowIndex].children[itemsIndex].appendChild(itemsButton);
+        actionBarTable.children[lastLabelRowIndex].children[itemsIndex].innerHTML = 'items';
+    }
+})();
+
+function multiCAB_addActionBar(barIndex) {
+    // Get the action bar holder
+    var actionbar = document.getElementsByClassName('actionbar')[0];
+
+    // Add a new bar and quantity
+    var newbar = addElement(actionbar.firstChild, 'tr', 'blueback');
+    var newqty = addElement(actionbar.firstChild, 'tr', 'label');
+
+    // Add a spacer for the script button
+    addElement(newbar, 'td', 'spacer');
+    addElement(newqty, 'td', 'spacer');
+
+    // Add a spacer after the script button
+    addElement(newbar, 'td', 'spacer');
+    addElement(newqty, 'td', 'spacer');
+
+    // Add spacers for the skills button
+    addElement(newbar, 'td', 'spacer');
+    addElement(newqty, 'td', 'spacer');
+
+    // Add a spacer after the skills button
+    addElement(newbar, 'td', 'spacer');
+    addElement(newqty, 'td', 'spacer');
+
+    // Add the new buttons
+    const startingButtonNum = barIndex * buttonsPerBar + 1;
+    for (var buttonNum = startingButtonNum; buttonNum < startingButtonNum + buttonsPerBar; buttonNum++) {
+        state.buttonstate[buttonNum];
+        var newButtonTD = addElement(newbar, 'td');
+        addElement(newqty, 'td', '', 'qty' + buttonNum).style.height = '11px';
+        var newButton = addElement(newButtonTD, 'img', '', 'button' + buttonNum);
+        if (!state["shapeshift"]) {
+            dragdrop.addDrop(newButton);
+            dragdrop.register(newButton);
+        }
+        newButton.onclick = buttonClick;
+        newButton.oncontextmenu = buttonClick;
+    }
+
+    // Add a spacer for the page up/down arrows
+    addElement(newbar, 'td', 'spacer');
+    addElement(newqty, 'td', 'spacer');
+
+    // Add a spacer before the items button
+    addElement(newbar, 'td', 'spacer');
+    addElement(newqty, 'td', 'spacer');
+
+    // Add a spacer for the items button
+    addElement(newbar, 'td', 'spacer');
+    addElement(newqty, 'td', 'spacer');
+}
+
 function multiCAB_init() {
     // Set the total button count
     const barCount = 2;
-    const buttonsPerBar = 12;
     state.totalbuttons = barCount * buttonsPerBar;
 
     // Calculate the height of the top bar
@@ -103,63 +193,10 @@ function multiCAB_init() {
     topbar.style.height = topBarHeight + 'px';
     document.getElementById('content_').style.top = topBarHeight + 'px';
 
-    // Get the action bar holder
-    var actionbar = document.getElementsByClassName('actionbar')[0];
+    // Add the second action bar
+    multiCAB_addActionBar(1);
 
-    // Add a new bar and quantity
-    var newbar = addElement(actionbar.firstChild, 'tr', 'blueback');
-    var newqty = addElement(actionbar.firstChild, 'tr', 'label');
-
-    // Add a spacer on the left side, to line up with the original bar
-    addElement(newbar, 'td', 'spacer').colSpan = 2;
-    addElement(newqty, 'td', 'spacer').colSpan = 2;
-
-    // Copy the skills button down to the new bar
-    addElement(newbar, 'td').appendChild(document.getElementById('skills'));
-    addElement(newqty, 'td').innerHTML = 'skills';
-
-    // Remove the original skills button from the first bar
-    with (actionbar.firstChild) {
-        for (var row = 0; row < 3; row++) {
-            children[row].children[2].className = 'spacer';
-            children[row].children[2].innerHTML = '';
-        }
-    }
-
-    // Add a spacer at the end of the new action bar, before the new buttons
-    addElement(newbar, 'td', 'spacer');
-    addElement(newqty, 'td', 'spacer');
-
-    // Add the new buttons
-    for (var button_it = 1; button_it < 13; button_it++) {
-        button_id = button_it + 12;
-        state.buttonstate[button_id];
-        var newButtonTD = addElement(newbar, 'td');
-        addElement(newqty, 'td', '', 'qty' + button_id).style.height = '11px';
-        var newButton = addElement(newButtonTD, 'img', '', 'button' + button_id);
-        if (!state["shapeshift"]) {
-            dragdrop.addDrop(newButton);
-            dragdrop.register(newButton);
-        }
-        newButton.onclick = buttonClick;
-        newButton.oncontextmenu = buttonClick;
-    }
-
-    // Add a spacer after the new action bar
-    addElement(newbar, 'td', 'spacer');
-    addElement(newqty, 'td', 'spacer');
-
-    // Copy the items button down to the new bar
-    addElement(newbar, 'td').appendChild(document.getElementById('items'));
-    addElement(newqty, 'td').innerHTML = 'items';
-
-    // Remove the original items button from the first bar
-    with (actionbar.firstChild) {
-        for (var row = 0; row < 3; row++) {
-            children[row].children[18].className = 'spacer';
-            children[row].children[18].innerHTML = '';
-        }
-    }
+    multiCAB_repositionSkillsAndItems();
 }
 
 multiCAB_init();
