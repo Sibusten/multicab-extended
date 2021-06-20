@@ -176,7 +176,7 @@ function multiCAB_addActionBar(barIndex) {
 
 function multiCAB_init() {
     // Set the total button count
-    const barCount = 2;
+    const barCount = 8;
     state.totalbuttons = barCount * buttonsPerBar;
 
     // Calculate the height of the top bar
@@ -193,8 +193,10 @@ function multiCAB_init() {
     topbar.style.height = topBarHeight + 'px';
     document.getElementById('content_').style.top = topBarHeight + 'px';
 
-    // Add the second action bar
-    multiCAB_addActionBar(1);
+    // Add the additional action bars
+    for (let barIndex = 1; barIndex < barCount; barIndex++) {
+        multiCAB_addActionBar(barIndex);
+    }
 
     multiCAB_repositionSkillsAndItems();
 }
