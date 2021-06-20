@@ -84,28 +84,43 @@ function addElement(parent, type, className, id) {
 }
 
 function multiCAB_init() {
+    // Set the total button count to 24 (12 buttons per action bar)
     state.totalbuttons = 24;
+
+    // Expand the top bar to fit the second action bar
     var newtopbarheight = 110 + 'px';
     var topbar = document.getElementById('topbar');
     topbar.style.height = newtopbarheight;
     document.getElementById('content_').style.top = newtopbarheight;
 
+    // Get the action bar holder
     var actionbar = document.getElementsByClassName('actionbar')[0];
+
+    // Add a new bar and quantity
     var newbar = addElement(actionbar.firstChild, 'tr', 'blueback');
     var newqty = addElement(actionbar.firstChild, 'tr', 'label');
+
+    // Add a spacer on the left side, to line up with the original bar
     addElement(newbar, 'td', 'spacer').colSpan = 2;
     addElement(newqty, 'td', 'spacer').colSpan = 2;
+
+    // Copy the skills button down to the new bar
     addElement(newbar, 'td').appendChild(document.getElementById('skills'));
     addElement(newqty, 'td').innerHTML = 'skills';
+
+    // Remove the original skills button from the first bar
     with (actionbar.firstChild) {
         for (var row = 0; row < 3; row++) {
             children[row].children[2].className = 'spacer';
             children[row].children[2].innerHTML = '';
         }
     }
+
+    // Add a spacer at the end of the new action bar, before the new buttons
     addElement(newbar, 'td', 'spacer');
     addElement(newqty, 'td', 'spacer');
 
+    // Add the new buttons
     for (var button_it = 1; button_it < 13; button_it++) {
         button_id = button_it + 12;
         state.buttonstate[button_id];
@@ -119,10 +134,16 @@ function multiCAB_init() {
         newButton.onclick = buttonClick;
         newButton.oncontextmenu = buttonClick;
     }
+
+    // Add a spacer after the new action bar
     addElement(newbar, 'td', 'spacer');
     addElement(newqty, 'td', 'spacer');
+
+    // Copy the items button down to the new bar
     addElement(newbar, 'td').appendChild(document.getElementById('items'));
     addElement(newqty, 'td').innerHTML = 'items';
+
+    // Remove the original items button from the first bar
     with (actionbar.firstChild) {
         for (var row = 0; row < 3; row++) {
             children[row].children[18].className = 'spacer';
