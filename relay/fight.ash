@@ -1,7 +1,24 @@
 buffer addMultiCAB( buffer result ) {
+    // Initialize additional bars property
+    string additionalBars = get_property("multiCAB_additionalBars");
+    if (additionalBars == "") {
+        additionalBars = "[12]";
+        set_property("multiCAB_additionalBars", additionalBars);
+    }
+
     matcher m = create_matcher( "actionbar\\.\\d+\\.js.+?<\\/script>" , result );
     if ( !m.find() ) return result;
-    result.insert( m.end() , "<script src='MultiCAB.js'></script>" );
+
+    // Insert MultiCAB configuration
+    int endOfActionbarScript = m.end();
+    string multiCabConfigScript = "<script>multiCAB_additionalBars = " + additionalBars + ";</script>";
+    result.insert(endOfActionbarScript, multiCabConfigScript);
+
+    // Insert MultiCAB
+    int endOfMultiCabConfigScript = endOfActionbarScript + length(multiCabConfigScript);
+    string multiCabScript = "<script src='MultiCAB.js'></script>";
+    result.insert(endOfMultiCabConfigScript, multiCabScript);
+
     return result;
 }
 

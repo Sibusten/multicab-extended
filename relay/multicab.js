@@ -1,3 +1,5 @@
+const multiCAB_barCount = () => 1 + multiCAB_additionalBars.length;
+
 function multiCAB_getPageIndexForButtonIndex(buttonIndex) {
     const barIndex = Math.floor((buttonIndex) / 12);
 
@@ -8,7 +10,7 @@ function multiCAB_getPageIndexForButtonIndex(buttonIndex) {
     else {
         // Return the additional bar index
         const additionalBarIndex = barIndex - 1;
-        return state.additionalBars[additionalBarIndex] - 1;
+        return multiCAB_additionalBars[additionalBarIndex] - 1;
     }
 }
 
@@ -65,7 +67,7 @@ setPage = (function() {
     return function(page) {
         // Temporarily override the number of buttons so setPage will initialize all of the extra buttons as well
         const savedButtonmax = tp.buttoncache.buttonmax;
-        const totalButtons = state.barCount * state.buttonsPerBar;
+        const totalButtons = multiCAB_barCount() * state.buttonsPerBar;
         state.buttonmax = totalButtons;
 
         try {
@@ -93,7 +95,7 @@ function multiCAB_resizeTopBar() {
     const bottomSpacingHeight = 6;  // Extra spacing before the combat body
     const topBarHeight =
         labelRowHeight  // The hotkey numbers above the first action bar
-        + state.barCount * (skillRowHeight + labelRowHeight)  // The size of all bars
+        + multiCAB_barCount() * (skillRowHeight + labelRowHeight)  // The size of all bars
         + bottomSpacingHeight;  // Extra spacing at the bottom
 
     // Expand the top bar to fit the second action bar
@@ -195,15 +197,11 @@ function multiCAB_init() {
     // Store the number of buttons per bar separately, since buttonmax will be overridden in some methods. This cannot be modified.
     state.buttonsPerBar = state.buttonmax;
 
-    // Set the number of bars to show, including the original bar
-    state.additionalBars = [11, 12]
-    Object.defineProperty(state, 'barCount', { get: () => 1 + state.additionalBars.length });
-
     // Fix topbar size
     multiCAB_resizeTopBar();
 
     // Add the additional action bars
-    for (let barIndex = 1; barIndex < state.barCount; barIndex++) {
+    for (let barIndex = 1; barIndex < multiCAB_barCount(); barIndex++) {
         multiCAB_addActionBar(barIndex);
     }
 
