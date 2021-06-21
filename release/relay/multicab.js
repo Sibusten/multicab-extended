@@ -180,8 +180,12 @@ function multiCAB_addActionBar(barIndex) {
         newButton.oncontextmenu = buttonClick;
     }
 
-    // Add a spacer for the page up/down arrows
-    addElement(newbar, 'td', 'spacer');
+    // Add the additional bar's page number
+    const pageNumber = multiCAB_getPageIndexForButtonIndex(startingButtonNum - 1) + 1;
+    const pageNumberColumn = addElement(newbar, 'td', 'page');
+    pageNumberColumn.align = 'center';
+    pageNumberColumn.valign = 'center';
+    pageNumberColumn.textContent = pageNumber;
     addElement(newqty, 'td', 'spacer');
 
     // Add a spacer before the items button
