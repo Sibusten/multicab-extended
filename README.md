@@ -2,6 +2,8 @@
 
 A KoLmafia script to add additional combat action bars, based on the original [MultiCAB](https://kolmafia.us/threads/multicab-show-an-extra-combat-action-bar.19907/) by darkcodelagsniper.
 
+![MultiCAB with 2 additional bars](/screenshots/three-bars.png?raw=true)
+
 ## Installation
 
 To install MultiCAB Extended, run the following from the Graphical CLI:
