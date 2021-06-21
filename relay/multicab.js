@@ -72,6 +72,22 @@ function addElement(parent, type, className, id) {
     return el;
 }
 
+function multiCAB_resizeTopBar() {
+    // Calculate the height of the top bar
+    const skillRowHeight = 36;  // The size of the skill boxes
+    const labelRowHeight = 12;  // The size of the labels above and below skill boxes
+    const bottomSpacingHeight = 6;  // Extra spacing before the combat body
+    const topBarHeight =
+        labelRowHeight  // The hotkey numbers above the first action bar
+        + state.barCount * (skillRowHeight + labelRowHeight)  // The size of all bars
+        + bottomSpacingHeight;  // Extra spacing at the bottom
+
+    // Expand the top bar to fit the second action bar
+    var topbar = document.getElementById('topbar');
+    topbar.style.height = topBarHeight + 'px';
+    document.getElementById('content_').style.top = topBarHeight + 'px';
+}
+
 const multiCAB_repositionSkillsAndItems = (function() {
     // Store skills and items buttons to simplify repositioning
     const skillsButton = document.getElementById('skills');
@@ -168,25 +184,15 @@ function multiCAB_init() {
     // Set the number of bars to show, including the original bar
     state.barCount = 8;
 
-    // Calculate the height of the top bar
-    const skillRowHeight = 36;  // The size of the skill boxes
-    const labelRowHeight = 12;  // The size of the labels above and below skill boxes
-    const bottomSpacingHeight = 6;  // Extra spacing before the combat body
-    const topBarHeight =
-        labelRowHeight  // The hotkey numbers above the first action bar
-        + state.barCount * (skillRowHeight + labelRowHeight)  // The size of all bars
-        + bottomSpacingHeight;  // Extra spacing at the bottom
-
-    // Expand the top bar to fit the second action bar
-    var topbar = document.getElementById('topbar');
-    topbar.style.height = topBarHeight + 'px';
-    document.getElementById('content_').style.top = topBarHeight + 'px';
+    // Fix topbar size
+    multiCAB_resizeTopBar();
 
     // Add the additional action bars
     for (let barIndex = 1; barIndex < state.barCount; barIndex++) {
         multiCAB_addActionBar(barIndex);
     }
 
+    // Redraw the skills and items buttons
     multiCAB_repositionSkillsAndItems();
 }
 
