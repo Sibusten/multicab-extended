@@ -1,3 +1,17 @@
+function multiCAB_getPageIndexForButtonIndex(buttonIndex) {
+    const barIndex = Math.floor((buttonIndex) / 12);
+
+    if (barIndex === 0) {
+        // Return the vanilla bar index
+        return tp.buttoncache.whichpage;
+    }
+    else {
+        // Return the additional bar index
+        const additionalBarIndex = barIndex - 1;
+        return state.additionalBars[additionalBarIndex] - 1;
+    }
+}
+
 // Wrap the original function from actionbar.js
 getCache = (function() {
     const original_getCache = getCache;
@@ -8,8 +22,8 @@ getCache = (function() {
 
         // Temporarily override the active page
         const savedWhichpage = tp.buttoncache.whichpage;
-        const clickedPage = (Math.floor((button - 1) / 12) + savedWhichpage) % 12;
-        tp.buttoncache.whichpage = clickedPage;
+        const buttonPageIndex = multiCAB_getPageIndexForButtonIndex(button - 1);
+        tp.buttoncache.whichpage = buttonPageIndex;
 
         try {
             return original_getCache(rowButton);
@@ -31,8 +45,8 @@ setCache = (function() {
 
         // Temporarily override the active page
         const savedWhichpage = tp.buttoncache.whichpage;
-        const clickedPage = (Math.floor((button - 1) / 12) + savedWhichpage) % 12;
-        tp.buttoncache.whichpage = clickedPage;
+        const buttonPageIndex = multiCAB_getPageIndexForButtonIndex(button - 1);
+        tp.buttoncache.whichpage = buttonPageIndex;
 
         try {
             return original_setCache(rowButton, type, id, pic);
@@ -182,7 +196,8 @@ function multiCAB_init() {
     state.buttonsPerBar = state.buttonmax;
 
     // Set the number of bars to show, including the original bar
-    state.barCount = 8;
+    state.additionalBars = [11, 12]
+    Object.defineProperty(state, 'barCount', { get: () => 1 + state.additionalBars.length });
 
     // Fix topbar size
     multiCAB_resizeTopBar();
