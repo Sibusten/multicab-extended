@@ -16,7 +16,7 @@ buffer addMultiCAB( buffer result ) {
 
     // Insert MultiCAB
     int endOfMultiCabConfigScript = endOfActionbarScript + length(multiCabConfigScript);
-    string multiCabScript = "<script src='MultiCAB.js'></script>";
+    string multiCabScript = "<script src='multicab.js'></script>";
     result.insert(endOfMultiCabConfigScript, multiCabScript);
 
     return result;
