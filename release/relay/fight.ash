@@ -23,6 +23,11 @@ buffer addMultiCAB( buffer result ) {
 }
 
 void main() {
+    // Birdform breaks multicab and can't use it anyway
+    if (have_effect($effect[Form of...Bird!]) > 0) {
+        return;
+    }
+
     buffer result = visit_url();
     result = result.addMultiCAB();
 
